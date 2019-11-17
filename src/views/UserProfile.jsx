@@ -15,8 +15,37 @@ import { UserCard } from "components/UserCard/UserCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
 import avatar from "assets/img/faces/face-3.jpg";
+import axios from "axios";
 
 class UserProfile extends Component {
+  constructor(props) {
+   // alert("Construct");
+      super(props);
+      this.state = {
+        webhook: "",
+        api_url: "",
+        api_key:"",
+        api_secret:"",
+        platform:""
+      };
+    }
+  
+    update = (name, e) => {
+      this.setState({ [name]: e.target.value });
+    }
+  
+   addNewCloud = event => {
+    event.preventDefault();
+
+    axios.post("https://jsonplaceholder.typicode.com/posts/1", this.state).then((res)=>{
+      //on success
+      console.log(res);
+      }).catch((error)=>{
+      //on error
+      alert("There is an error in API call.");
+      });
+
+  };
   render() {
     return (
       <div className="content">
@@ -24,32 +53,30 @@ class UserProfile extends Component {
           <Row>
             <Col md={8} class="offset-col-2">
               <Card
-                title="Edit Profile"
+                title="Manage Clouds"
                 content={
-                  <form>
+                  <form onSubmit={this.addNewCloud}> 
                     <FormInputs
-                      ncols={["col-md-5", "col-md-3", "col-md-4"]}
+                      ncols={["col-md-6", "col-md-6"]}
                       properties={[
                         {
-                          label: "Company (disabled)",
+                          label: "Platform",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Company",
-                          defaultValue: "Creative Code Inc.",
-                          disabled: true
+                          placeholder: "",
+                          value: this.state.platform,
+                          onChange:(e) => this.update("platform", e)
+                          // defaultValue: "Creative Code Inc.",
+                          // disabled: true
                         },
                         {
-                          label: "Username",
+                          label: "API URL",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Username",
-                          defaultValue: "michael23"
-                        },
-                        {
-                          label: "Email address",
-                          type: "email",
-                          bsClass: "form-control",
-                          placeholder: "Email"
+                          placeholder: "",
+                          value: this.state.api_url,
+                          onChange: (e) => this.update("api_url", e)
+                          // defaultValue: "michael23"
                         }
                       ]}
                     />
@@ -57,18 +84,22 @@ class UserProfile extends Component {
                       ncols={["col-md-6", "col-md-6"]}
                       properties={[
                         {
-                          label: "First name",
+                          label: "API KEY",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "First name",
-                          defaultValue: "Mike"
+                          placeholder: "",
+                          value: this.state.api_key,
+                          onChange: (e) => this.update("api_key", e)
+                          // defaultValue: "Mike"
                         },
                         {
-                          label: "Last name",
+                          label: "API SECRET",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Last name",
-                          defaultValue: "Andrew"
+                          placeholder: "",
+                          value: this.state.api_secret,
+                          onChange: (e) => this.update("api_secret", e)
+                          // defaultValue: "Andrew"
                         }
                       ]}
                     />
@@ -76,57 +107,21 @@ class UserProfile extends Component {
                       ncols={["col-md-12"]}
                       properties={[
                         {
-                          label: "Adress",
+                          label: "Web Hook Link",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Home Adress",
-                          defaultValue:
-                            "Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                          placeholder: "",
+                          value: this.state.webhook,
+                          onChange: (e) => this.update("webhook", e)
+                          // defaultValue:
+                          //   "Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
                         }
                       ]}
                     />
-                    <FormInputs
-                      ncols={["col-md-4", "col-md-4", "col-md-4"]}
-                      properties={[
-                        {
-                          label: "City",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "City",
-                          defaultValue: "Mike"
-                        },
-                        {
-                          label: "Country",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "Country",
-                          defaultValue: "Andrew"
-                        },
-                        {
-                          label: "Postal Code",
-                          type: "number",
-                          bsClass: "form-control",
-                          placeholder: "ZIP Code"
-                        }
-                      ]}
-                    />
+    
 
-                    <Row>
-                      <Col md={12}>
-                        <FormGroup controlId="formControlsTextarea">
-                          <ControlLabel>About Me</ControlLabel>
-                          <FormControl
-                            rows="5"
-                            componentClass="textarea"
-                            bsClass="form-control"
-                            placeholder="Here can be your description"
-                            defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
                     <Button bsStyle="info" pullRight fill type="submit">
-                      Update Profile
+                      Add New Cloud
                     </Button>
                     <div className="clearfix" />
                   </form>

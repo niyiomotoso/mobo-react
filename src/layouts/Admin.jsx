@@ -12,7 +12,6 @@ import { style } from "variables/Variables.jsx";
 import routes from "routes.js";
 
 import image from "assets/img/sidebar-4.jpg";
-
 class Admin extends Component {
   constructor(props) {
     super(props);
@@ -27,6 +26,7 @@ class Admin extends Component {
   handleNotificationClick = position => {
     var color = Math.floor(Math.random() * 4 + 1);
     var level;
+    
     switch (color) {
       case 1:
         level = "success";

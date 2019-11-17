@@ -1,11 +1,24 @@
 
 import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
-
+import axios from 'axios';
 import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
 
 class TableList extends Component {
+  componentDidMount() {
+   this.getClouds();
+  }
+  getClouds(){
+    axios.get("https://jsonplaceholder.typicode.com/posts/1",{}).then((res)=>{
+      //on success
+      console.log(res);
+      }).catch((error)=>{
+      //on error
+      alert("There is an error in API call.");
+      });
+  }
+
   render() {
     return (
       <div className="content">
