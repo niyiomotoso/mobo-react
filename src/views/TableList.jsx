@@ -3,16 +3,41 @@ import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import axios from 'axios';
 import Card from "components/Card/Card.jsx";
-import { thArray, tdArray } from "variables/Variables.jsx";
+import { tdArray } from "variables/Variables.jsx";
 
 class TableList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: null
+  }  
+    //this.handleLoad = this.handleLoad.bind(this);
+ }
   componentDidMount() {
    this.getClouds();
   }
+  settingsHeader = ["PLATORM", "API URL", "API KEY", "API SECRET", "WEBHOOK", "CREATED AT"];
+  configs = [];
   getClouds(){
-    axios.get("https://jsonplaceholder.typicode.com/posts/1",{}).then((res)=>{
+    const setState = this.setState.bind(this);  
+    axios.get("http://localhost:3600/settings",{}).then((res)=>{
       //on success
-      console.log(res);
+      var result = res.data.data;
+      //this.configs=result;
+      result.forEach(element => {
+         var config = [];
+         config.push(element._id);
+         config.push(element.platform);
+         config.push(element.api_url);
+         config.push(element.api_key);
+         config.push(element.api_secret);
+         config.push(element.webhook);
+
+         this.configs.push(config);
+      });
+      setState({data: this.configs});
+      console.log(this.configs);
+     
       }).catch((error)=>{
       //on error
       alert("There is an error in API call.");
@@ -21,26 +46,29 @@ class TableList extends Component {
 
   render() {
     return (
+      this.state.data === null ? 
+                <div>Loading</div>
+            :
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={12}>
               <Card
-                title="Striped Table with Hover"
-                category="Here is a subtitle for this table"
+                title="Supported IoT Cloud Platforms"
+                category="More can be added"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
                   <Table striped hover>
                     <thead>
                       <tr>
-                        {thArray.map((prop, key) => {
+                        {this.settingsHeader.map((prop, key) => {
                           return <th key={key}>{prop}</th>;
                         })}
                       </tr>
                     </thead>
                     <tbody>
-                      {tdArray.map((prop, key) => {
+                      {this.configs.map((prop, key) => {
                         return (
                           <tr key={key}>
                             {prop.map((prop, key) => {
@@ -55,37 +83,6 @@ class TableList extends Component {
               />
             </Col>
 
-            <Col md={12}>
-              <Card
-                plain
-                title="Striped Table with Hover"
-                category="Here is a subtitle for this table"
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-                  <Table hover>
-                    <thead>
-                      <tr>
-                        {thArray.map((prop, key) => {
-                          return <th key={key}>{prop}</th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tdArray.map((prop, key) => {
-                        return (
-                          <tr key={key}>
-                            {prop.map((prop, key) => {
-                              return <td key={key}>{prop}</td>;
-                            })}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                }
-              />
-            </Col>
           </Row>
         </Grid>
       </div>

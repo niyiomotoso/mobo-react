@@ -37,7 +37,7 @@ class UserProfile extends Component {
    addNewCloud = event => {
     event.preventDefault();
 
-    axios.post("https://jsonplaceholder.typicode.com/posts/1", this.state).then((res)=>{
+    axios.post("http://localhost:3600/settings", this.state).then((res)=>{
       //on success
       console.log(res);
       }).catch((error)=>{
@@ -51,7 +51,7 @@ class UserProfile extends Component {
       <div className="content">
         <Grid fluid>
           <Row>
-            <Col md={8} class="offset-col-2">
+            <Col md={8} mdOffset={2}>
               <Card
                 title="Manage Clouds"
                 content={
