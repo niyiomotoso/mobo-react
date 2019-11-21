@@ -5,7 +5,7 @@ import axios from 'axios';
 import Card from "components/Card/Card.jsx";
 import { tdArray } from "variables/Variables.jsx";
 
-class TableList extends Component {
+class PlatformList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +16,7 @@ class TableList extends Component {
   componentDidMount() {
    this.getClouds();
   }
-  settingsHeader = ["PLATORM", "API URL", "API KEY", "API SECRET", "WEBHOOK", "CREATED AT"];
+  settingsHeader = ["PLATORM", "HOST", "API KEY", "API SECRET", "Device/Client ID", "CREATED AT"];
   configs = [];
   getClouds(){
     const setState = this.setState.bind(this);  
@@ -90,4 +90,4 @@ class TableList extends Component {
   }
 }
 
-export default TableList;
+export default PlatformList;

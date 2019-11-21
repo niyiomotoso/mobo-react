@@ -1,11 +1,8 @@
 
 import Dashboard from "views/Dashboard.jsx";
-import UserProfile from "views/UserProfile.jsx";
-import TableList from "views/TableList.jsx";
-import Typography from "views/Typography.jsx";
-import Icons from "views/Icons.jsx";
-import Notifications from "views/Notifications.jsx";
-import Upgrade from "views/Upgrade.jsx";
+import PlatformConfig from "views/platform-config";
+import PlatformList from "views/platform-list";
+
 
 const dashboardRoutes = [
   {
@@ -17,37 +14,16 @@ const dashboardRoutes = [
   },
   {
     path: "/user",
-    name: "Cloud Config",
+    name: "CLOUD CONFIGURATION",
     icon: "pe-7s-user",
-    component: UserProfile,
+    component: PlatformConfig,
     layout: "/admin"
   },
   {
     path: "/table",
-    name: "Supported Clouds",
+    name: "Currently Added Clouds",
     icon: "pe-7s-note2",
-    component: TableList,
-    layout: "/admin"
-  },
-  {
-    path: "/typography",
-    name: "Devices",
-    icon: "pe-7s-news-paper",
-    component: Typography,
-    layout: "/admin"
-  },
-  {
-    path: "/icons",
-    name: "Icons",
-    icon: "pe-7s-science",
-    component: Icons,
-    layout: "/admin"
-  },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    icon: "pe-7s-bell",
-    component: Notifications,
+    component: PlatformList,
     layout: "/admin"
   }
 ];

@@ -17,7 +17,7 @@ import Button from "components/CustomButton/CustomButton.jsx";
 import avatar from "assets/img/faces/face-3.jpg";
 import axios from "axios";
 
-class UserProfile extends Component {
+class PlatformConfig extends Component {
   constructor(props) {
    // alert("Construct");
       super(props);
@@ -40,6 +40,8 @@ class UserProfile extends Component {
     axios.post("http://localhost:3600/settings", this.state).then((res)=>{
       //on success
       console.log(res);
+      alert("Platform Config Added Successfully");
+
       }).catch((error)=>{
       //on error
       alert("There is an error in API call.");
@@ -70,7 +72,7 @@ class UserProfile extends Component {
                           // disabled: true
                         },
                         {
-                          label: "API URL",
+                          label: "Host Name",
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "",
@@ -107,7 +109,7 @@ class UserProfile extends Component {
                       ncols={["col-md-12"]}
                       properties={[
                         {
-                          label: "Web Hook Link",
+                          label: "Client/Device Id",
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "",
@@ -136,4 +138,4 @@ class UserProfile extends Component {
   }
 }
 
-export default UserProfile;
+export default PlatformConfig;

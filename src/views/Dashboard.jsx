@@ -1,26 +1,26 @@
 
 import React, { Component } from "react";
-import ChartistGraph from "react-chartist";
 import { Grid, Row, Col } from "react-bootstrap";
-
-import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
-import { Tasks } from "components/Tasks/Tasks.jsx";
+import socketIOClient from "socket.io-client";
 
-import {
-  dataPie,
-  legendPie,
-  dataSales,
-  optionsSales,
-  responsiveSales,
-  legendSales,
-  dataBar,
-  optionsBar,
-  responsiveBar,
-  legendBar
-} from "variables/Variables.jsx";
 
 class Dashboard extends Component {
+  constructor() {
+    super();
+    this.state = {
+      response: false,
+      endpoint: "http://192.168.43.244:3600"
+    };
+  }
+
+  componentDidMount(){
+    const { endpoint } = this.state;
+    const socket = socketIOClient(endpoint);
+    socket.on("FromAPI", data => this.setState({ response: data }));
+
+  }
+
   createLegend(json) {
     var legend = [];
     for (var i = 0; i < json["names"].length; i++) {
@@ -33,49 +33,41 @@ class Dashboard extends Component {
   }
 
   render() {
+    //const { response } = this.state;
     return (
       <div className="content">
+        <div style={{ textAlign: "center" }}>
+          {this.state.response.temperature
+              ? <p>
+               Realtime Analytics
+              </p>
+              : <p>PI YET TO BEGIN DATA LOGGING...</p>}
+        </div>
+
         <Grid fluid>
           <Row>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-server text-warning" />}
-                statsText="Capacity"
-                statsValue="105GB"
-                statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-wallet text-success" />}
-                statsText="Revenue"
-                statsValue="$1,345"
-                statsIcon={<i className="fa fa-calendar-o" />}
-                statsIconText="Last day"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
+           
+            <Col lg={6} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-graph1 text-danger" />}
-                statsText="Errors"
-                statsValue="23"
+                statsText="Temperature"
+                statsValue={this.state.response.temperature}
                 statsIcon={<i className="fa fa-clock-o" />}
-                statsIconText="In the last hour"
+                statsIconText={this.state.response.time}
               />
             </Col>
-            <Col lg={3} sm={6}>
+            <Col lg={6} sm={6}>
               <StatsCard
-                bigIcon={<i className="fa fa-twitter text-info" />}
-                statsText="Followers"
-                statsValue="+45"
-                statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
+                bigIcon={<i className="pe-7s-graph1 text-primary" />}
+                statsText="Humidity"
+                statsValue={this.state.response.humidity}
+                statsIcon={<i className="fa fa-clock-o" />}
+                statsIconText= {this.state.response.time}
               />
-            </Col>
+              </Col>
           </Row>
           <Row>
-            <Col md={8}>
+            {/* <Col md={12}>
               <Card
                 statsIcon="fa fa-history"
                 id="chartHours"
@@ -96,26 +88,8 @@ class Dashboard extends Component {
                   <div className="legend">{this.createLegend(legendSales)}</div>
                 }
               />
-            </Col>
-            <Col md={4}>
-              <Card
-                statsIcon="fa fa-clock-o"
-                title="Email Statistics"
-                category="Last Campaign Performance"
-                stats="Campaign sent 2 days ago"
-                content={
-                  <div
-                    id="chartPreferences"
-                    className="ct-chart ct-perfect-fourth"
-                  >
-                    <ChartistGraph data={dataPie} type="Pie" />
-                  </div>
-                }
-                legend={
-                  <div className="legend">{this.createLegend(legendPie)}</div>
-                }
-              />
-            </Col>
+            </Col> */}
+        
           </Row>
 
           <Row>
